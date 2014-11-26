@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Class="BusBaseDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=EMIL;Initial Catalog=MVCBusStation;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MVCBusStationConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="" Member="Stations">
+    <Type Name="Station">
+      <Column Name="ID" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" CanBeNull="false" />
+      <Column Name="Position" Type="System.String" CanBeNull="false" />
+      <Association Name="Station_BusPath" Member="BusPaths" ThisKey="ID" OtherKey="Station_ID" Type="BusPath" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Bus">
+    <Type Name="Bus">
+      <Column Name="ID" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" CanBeNull="false" />
+      <Association Name="Bus_BusPath" Member="BusPaths" ThisKey="ID" OtherKey="Bus_ID" Type="BusPath" />
+    </Type>
+  </Table>
+  <Table Name="" Member="BusPaths">
+    <Type Name="BusPath">
+      <Column Name="ID" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Station_ID" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Bus_ID" Type="System.Int32" CanBeNull="false" />
+      <Column Name="StationNumber" Type="System.String" CanBeNull="false" />
+      <Association Name="BusPath_BusPathToTime" Member="BusPathToTimes" ThisKey="ID" OtherKey="BusPath_ID" Type="BusPathToTime" />
+      <Association Name="Station_BusPath" Member="Station" ThisKey="Station_ID" OtherKey="ID" Type="Station" IsForeignKey="true" />
+      <Association Name="Bus_BusPath" Member="Bus" ThisKey="Bus_ID" OtherKey="ID" Type="Bus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Times">
+    <Type Name="Time">
+      <Column Name="ID" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Hour" Type="System.String" CanBeNull="false" />
+      <Column Name="Minute" Type="System.String" CanBeNull="false" />
+      <Column Name="FreeDay" Type="System.String" CanBeNull="false" />
+      <Association Name="Time_BusPathToTime" Member="BusPathToTimes" ThisKey="ID" OtherKey="Time_ID" Type="BusPathToTime" />
+    </Type>
+  </Table>
+  <Table Name="" Member="BusPathToTimes">
+    <Type Name="BusPathToTime">
+      <Column Name="BusPath_ID" Type="System.Int32" CanBeNull="false" />
+      <Column Name="Time_ID" Type="System.Int32" CanBeNull="false" />
+      <Column Name="ID" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="BusPath_BusPathToTime" Member="BusPath" ThisKey="BusPath_ID" OtherKey="ID" Type="BusPath" IsForeignKey="true" />
+      <Association Name="Time_BusPathToTime" Member="Time" ThisKey="Time_ID" OtherKey="ID" Type="Time" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
