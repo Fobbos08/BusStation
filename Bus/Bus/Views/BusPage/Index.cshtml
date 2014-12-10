@@ -1,0 +1,22 @@
+﻿@model Bus.Models.Pages.BusPage
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts/_layout.cshtml";
+}
+@{
+    string name = String.Format("Маршрут №{0} - {1}", Model.BusCode, Model.BusName);    
+}
+
+<h2>@name</h2>
+<h3>Остановки</h3>
+<div>
+    @if (Model.Stations.Count > 0)
+    {
+        foreach (var station in Model.Stations)
+        {
+     <div class="station">
+         @station.Name
+         </div>
+        }
+    }
+</div>

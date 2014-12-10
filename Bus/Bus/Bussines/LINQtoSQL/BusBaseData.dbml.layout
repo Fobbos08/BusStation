@@ -32,7 +32,7 @@
         <elementListCompartment Id="cea3e92b-0350-44c0-9af2-ac8669ffca7c" absoluteBounds="6.265, 1.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.75 : 1.94695843196615); (3.5 : 1.94695843196615)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 1.94695843196615); (3.04166666666667 : 1.94695843196615 : JumpStart); (3.20833333333333 : 1.94695843196615 : JumpEnd); (3.5 : 1.94695843196615)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/BusBaseDataDataContext/Station/Station_BusPath" />
       <nodes>
         <classShapeMoniker Id="9fd04fd3-d4a0-4f6f-94ac-5ca7eb31e758" />

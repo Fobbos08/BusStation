@@ -18,7 +18,7 @@ namespace Bus.Bussines
 
         public bool Update()
         {
-            StreamReader sr = new StreamReader("C:/f/q.csv");
+            StreamReader sr = new StreamReader("C:/f/q3.csv");
             List<string> f = new List<string>();
             while(!sr.EndOfStream)
             {
@@ -81,32 +81,37 @@ namespace Bus.Bussines
 
             Dictionary<int, List<int>> timeWorkDays = new Dictionary<int, List<int>>();
             Dictionary<int, List<int>> timeFreeDays = new Dictionary<int, List<int>>();
-            int arrow = 5;
+            int arrow = 4;
+            int jj = 0;
             foreach (string minutes in stationInformation[4].Split(Separator))
             {
                 List<int> minutesList = new List<int>();
-                int j = 0;
-                if (j > 0 && j < 20)
+                
+                if (jj > 0 && jj < 20)
                 foreach (string m in minutes.Split(MinuteSeparator))
                 {
-                    
+                    if (m != "")
                     minutesList.Add(int.Parse(m));
                 }
-                j++;
+                jj++;
+                if (minutesList.Count > 0)
                 timeWorkDays.Add(arrow, minutesList);
                 arrow++;
             }
-            arrow = 5;
+            arrow = 4;
+            jj = 0;
             foreach (string minutes in stationInformation[5].Split(Separator))
             {
                 List<int> minutesList = new List<int>();
-                int j = 0;
-                if (j > 0 && j < 20)
+
+                if (jj > 0 && jj < 20)
                 foreach (string m in minutes.Split(MinuteSeparator))
                 {
+                    if(m!="")
                     minutesList.Add(int.Parse(m));
                 }
-                j++;
+                jj++;
+                if(minutesList.Count>0)
                 timeFreeDays.Add(arrow, minutesList);
                 arrow++;
             }

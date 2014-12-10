@@ -1,0 +1,21 @@
+﻿@using Bus.Models.Pages
+@model BusListingPage 
+@{
+    ViewBag.Title = "Список маршрутов";
+    Layout = "~/Views/Shared/Layouts/_layout.cshtml";
+    }
+<h2>Маршруты</h2>
+<div class="busses">
+    @if (Model.Buses != null)
+    {
+        foreach (var bus in Model.Buses)
+        {
+            if (bus != null)
+            {
+                <div class="bus">
+                    <a href="@Url.Action("GetBusPage", "BusPage", new { busId = bus.ID })">@bus.Code - @bus.Name</a>
+                </div> 
+            }
+        }
+    }
+</div>

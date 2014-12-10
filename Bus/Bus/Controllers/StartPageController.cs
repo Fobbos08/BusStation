@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bus.Bussines;
 using Bus.Models.Pages;
+using Bus.Bussines.LINQtoSQL;
 
 namespace Bus.Controllers
 {
@@ -15,8 +16,12 @@ namespace Bus.Controllers
 
         public ActionResult Index(StartPage currentPage)
         {
-            DataUpdateJob j = new DataUpdateJob();
-            j.Update();
+            //BusBaseDataDataContext _dataContext = new BusBaseDataDataContext();
+            //DataUpdateJob j = new DataUpdateJob();
+            //j.Update();
+             //BusBaseDataDataContext _dataContext = new BusBaseDataDataContext();
+             //_dataContext.DeleteDatabase();
+             //_dataContext.CreateDatabase();
             return View(currentPage);
         }
 
