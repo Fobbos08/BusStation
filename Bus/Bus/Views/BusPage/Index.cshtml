@@ -9,14 +9,17 @@
 
 <h2>@name</h2>
 <h3>Остановки</h3>
-<div>
-    @if (Model.Stations.Count > 0)
+<div class="stations">
+    @if (Model.Stations != null)
     {
-        foreach (var station in Model.Stations)
+        if (Model.Stations.Count > 0)
         {
-     <div class="station">
-         @station.Name
-         </div>
+            foreach (var station in Model.Stations)
+            {
+        <div class="station">
+            <a href="@Url.Action("GetStationPage", "StationPage", new { stationId = station.ID })">@station.Name</a>
+        </div>
+            }
         }
     }
 </div>

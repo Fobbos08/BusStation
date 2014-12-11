@@ -18,12 +18,15 @@ namespace Bus.Controllers
             var bus = BaseConnector.GetBus(currentPage.BusId);
             List<Bus.Bussines.LINQtoSQL.Station> stations = BaseConnector.GetStations(currentPage.BusId);
             BusPage bp = new BusPage();
-            bp.BusCode = bus.Code;
-            bp.BusId = bus.ID;
-            bp.BusName = bus.Name;
-            bp.Stations = new List<Bussines.LINQtoSQL.Station>();
-            foreach (var a in stations)
-                bp.Stations.Add(a);
+            //if (bus == null) return View("ErrorPage")//!!!!! in current folder
+            
+                bp.BusCode = bus.Code;
+                bp.BusId = bus.ID;
+                bp.BusName = bus.Name;
+                bp.Stations = new List<Bussines.LINQtoSQL.Station>();
+                foreach (var a in stations)
+                    bp.Stations.Add(a);
+            
             return View(bp);
         }
 
@@ -34,22 +37,9 @@ namespace Bus.Controllers
                 return null; 
             }
             var bus = BaseConnector.GetBus(busId);
-            List<Bus.Bussines.LINQtoSQL.Station> stations = BaseConnector.GetStations(busId);
             BusPage bp = new BusPage();
-            bp.BusCode = bus.Code;
             bp.BusId = bus.ID;
-            bp.BusName = bus.Name;
-            bp.Stations = new List<Bussines.LINQtoSQL.Station>();
-            foreach (var a in stations)
-                bp.Stations.Add(a);
-            return RedirectToAction("Index", bp);
-            return RedirectToAction("Index", new BusPage
-            {
-                BusCode = bus.Code,
-                BusId = bus.ID,
-                BusName = bus.Name,
-                Stations = stations
-            });
+            return RedirectToAction("Index", bp );
         }
 
     }

@@ -125,6 +125,8 @@
     <Compile Include="Controllers\BusListingPageController.cs" />
     <Compile Include="Controllers\BusPageController.cs" />
     <Compile Include="Controllers\StartPageController.cs" />
+    <Compile Include="Controllers\StationListingPageController.cs" />
+    <Compile Include="Controllers\StationPageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -133,10 +135,12 @@
     <Compile Include="Models\Pages\BusPage.cs" />
     <Compile Include="Models\Pages\PathPage.cs" />
     <Compile Include="Models\Pages\StartPage.cs" />
+    <Compile Include="Models\Pages\StationListingPage.cs" />
     <Compile Include="Models\Pages\StationPage.cs" />
     <Compile Include="Models\Pages\TimeTableListingPage.cs" />
     <Compile Include="Models\Pages\TimeTablePage.cs" />
     <Compile Include="Models\Pages\UpdatePage.cs" />
+    <Compile Include="Models\Partials\TimeTable.cs" />
     <Compile Include="Models\UpdaterModels\BusInStation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -145,6 +149,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <Content Include="Static\css\Bootstrap.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -185,6 +190,9 @@
     </None>
     <Content Include="Views\BusListingPage\Index.cshtml" />
     <Content Include="Views\BusPage\Index.cshtml" />
+    <Content Include="Views\StationListingPage\Index.cshtml" />
+    <Content Include="Views\StationPage\Index.cshtml" />
+    <Content Include="Views\Shared\Partials\TimeTable.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

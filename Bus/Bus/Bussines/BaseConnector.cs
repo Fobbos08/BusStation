@@ -118,7 +118,12 @@ namespace Bus.Bussines
             var buses = from bus in _dataContext.Bus
                         where bus.ID == id
                         select bus;
-            return buses.ToList()[0];
+            var bList = buses.ToList();
+            if (bList.Count != 0)
+            {
+                return buses.ToList()[0];
+            }
+            return null;
         }
 
         public static List<LINQtoSQL.Bus> GetBuses()
@@ -134,6 +139,20 @@ namespace Bus.Bussines
                 {}
             }
             return null;
+        }
+
+        public static List<LINQtoSQL.Bus> GetBuses(int stationId)
+        {
+            List<Bus.Bussines.LINQtoSQL.Bus> buses = new List<Bus.Bussines.LINQtoSQL.Bus>();
+            var busesId = from value in _dataContext.BusPaths
+                             where value.Station_ID == stationId
+                             select value.Bus_ID;
+            foreach (var value in busesId)
+            {
+                var bus = GetBus(value);
+                buses.Add(bus);
+            }
+            return buses;
         }
 
         private static List<BusPath> GetBusPath(Station station)
@@ -152,7 +171,7 @@ namespace Bus.Bussines
             return busPaths.ToList();
         }
 
-        private static Station GetStation(string stationName)
+        public static Station GetStation(string stationName)
         {
             var stations = from station in _dataContext.Stations
                           where station.Name.ToLower() == stationName.ToLower()
@@ -164,7 +183,7 @@ namespace Bus.Bussines
             return null;
         }
 
-        private static Station GetStation(int stationId)
+        public static Station GetStation(int stationId)
         {
             var stations = from station in _dataContext.Stations
                            where station.ID == stationId
@@ -181,6 +200,19 @@ namespace Bus.Bussines
             List<Station> stations = new List<Station>();
             var stationsId = from value in _dataContext.BusPaths
                              where value.Bus_ID == BusId
+                             select value.Station_ID;
+            foreach (var value in stationsId)
+            {
+                var station = GetStation(value);
+                stations.Add(station);
+            }
+            return stations;
+        }
+
+        public static List<Station> GetStations()
+        {
+            List<Station> stations = new List<Station>();
+            var stationsId = from value in _dataContext.BusPaths
                              select value.Station_ID;
             foreach (var value in stationsId)
             {
