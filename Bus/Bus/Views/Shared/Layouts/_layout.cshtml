@@ -6,14 +6,17 @@
 
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="~/Static/css/Bootstrap.css">
+    @*<link rel="stylesheet" type="text/css" href="~/Static/css/Bootstrap.css">*@
+    <script type="text/javascript" src="~/Static/js/jquery.min.1.5.1.js"></script>
     <meta name="viewport" content="width=device-width" />
     <title>_layout</title>
+    @RenderSection("yandexMap", false)
 </head>
 <body>
-    <div class="menu">
-        @Html.Raw(Bus.Helpers.MenuHelper.DrawMenu())
+    <div class="container">
+        @Html.Partial("~/Views/Shared/Partials/TopMenu.cshtml")
         @RenderBody()
     </div>
+    @RenderSection("map", false)
 </body>
 </html>

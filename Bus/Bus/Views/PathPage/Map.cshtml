@@ -1,0 +1,14 @@
+﻿@using Bus.Models
+@model List<PathInformation>
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+@{
+    foreach(var value in Model)
+    {
+        <h4>---</h4>
+    <h4>@value.Bus.Code - @value.Bus.Name</h4>
+    <h4>@value.Station.Name</h4>
+    }
+}

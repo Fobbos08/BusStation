@@ -124,6 +124,7 @@
     </Compile>
     <Compile Include="Controllers\BusListingPageController.cs" />
     <Compile Include="Controllers\BusPageController.cs" />
+    <Compile Include="Controllers\PathPageController.cs" />
     <Compile Include="Controllers\StartPageController.cs" />
     <Compile Include="Controllers\StationListingPageController.cs" />
     <Compile Include="Controllers\StationPageController.cs" />
@@ -131,6 +132,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MenuHelper.cs" />
+    <Compile Include="Helpers\PathPageHelper.cs" />
+    <Compile Include="Helpers\TimeTableHelper.cs" />
     <Compile Include="Models\Pages\BusListingPage.cs" />
     <Compile Include="Models\Pages\BusPage.cs" />
     <Compile Include="Models\Pages\PathPage.cs" />
@@ -141,6 +144,7 @@
     <Compile Include="Models\Pages\TimeTablePage.cs" />
     <Compile Include="Models\Pages\UpdatePage.cs" />
     <Compile Include="Models\Partials\TimeTable.cs" />
+    <Compile Include="Models\PathInformation.cs" />
     <Compile Include="Models\UpdaterModels\BusInStation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -150,6 +154,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
     <Content Include="Static\css\Bootstrap.css" />
+    <Content Include="Static\js\jquery.min.1.5.1.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -193,6 +198,9 @@
     <Content Include="Views\StationListingPage\Index.cshtml" />
     <Content Include="Views\StationPage\Index.cshtml" />
     <Content Include="Views\Shared\Partials\TimeTable.cshtml" />
+    <Content Include="Views\Shared\Partials\TopMenu.cshtml" />
+    <Content Include="Views\PathPage\Index.cshtml" />
+    <Content Include="Views\PathPage\Map.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

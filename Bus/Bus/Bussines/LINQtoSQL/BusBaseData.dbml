@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Class="BusBaseDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=EMIL\SQLEXPRESS;Initial Catalog=MVCBusStation;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MVCBusStationConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=EMIL\SQLEXPRESS;Initial Catalog=MyNewBusStation;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MyNewBusStationConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="" Member="Stations">
     <Type Name="Station">
       <Column Name="ID" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -32,7 +32,7 @@
       <Column Name="ID" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Hour" Type="System.String" CanBeNull="false" />
       <Column Name="Minute" Type="System.String" CanBeNull="false" />
-      <Column Name="FreeDay" Type="System.String" CanBeNull="false" />
+      <Column Name="FreeDay" Member="TypeDay" Storage="_FreeDay" Type="System.String" CanBeNull="false" />
       <Association Name="Time_BusPathToTime" Member="BusPathToTimes" ThisKey="ID" OtherKey="Time_ID" Type="BusPathToTime" />
     </Type>
   </Table>
@@ -43,6 +43,14 @@
       <Column Name="ID" Type="System.Int32" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="BusPath_BusPathToTime" Member="BusPath" ThisKey="BusPath_ID" OtherKey="ID" Type="BusPath" IsForeignKey="true" />
       <Association Name="Time_BusPathToTime" Member="Time" ThisKey="Time_ID" OtherKey="ID" Type="Time" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="Users">
+    <Type Name="Users">
+      <Column Member="ID" AutoSync="OnInsert" Type="System.Int32" IsDbGenerated="true" CanBeNull="false" />
+      <Column Member="Login" Type="System.String" CanBeNull="false" />
+      <Column Member="Password" Type="System.String" CanBeNull="false" />
+      <Column Member="Role" Type="System.String" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

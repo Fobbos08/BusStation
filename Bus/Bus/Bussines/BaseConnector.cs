@@ -14,11 +14,9 @@ namespace Bus.Bussines
 
         public static bool SetData(BusInStation currentData)//some parametrs
         {
-             
-            //var bus = _dataContext.Bus.Where(x => x.Name == currentData.BusName).Select(x => x);
-            var buses = from bus in _dataContext.Bus
+           var buses = from bus in _dataContext.Bus
                       where currentData.BusName == bus.Name &&
-                      currentData.BusNumber.ToString() == bus.Code
+                      currentData.BusNumber == bus.Code
                       select bus;
             Bus.Bussines.LINQtoSQL.Bus _bus;
             if (buses != null)
@@ -29,14 +27,14 @@ namespace Bus.Bussines
                 }
                 else
                 {
-                    _bus = new LINQtoSQL.Bus() { Code = currentData.BusNumber.ToString(), Name = currentData.BusName };
+                    _bus = new LINQtoSQL.Bus() { Code = currentData.BusNumber, Name = currentData.BusName };
                     _dataContext.Bus.InsertOnSubmit(_bus);
                     _dataContext.SubmitChanges();
                 }
             }
             else
             {
-                _bus = new LINQtoSQL.Bus() { Code = currentData.BusNumber.ToString(), Name = currentData.BusName };
+                _bus = new LINQtoSQL.Bus() { Code = currentData.BusNumber, Name = currentData.BusName };
                 _dataContext.Bus.InsertOnSubmit(_bus);
                 _dataContext.SubmitChanges();
             }
@@ -76,7 +74,7 @@ namespace Bus.Bussines
             {
                 foreach(var b in a.Value)
                 {
-                    Bus.Bussines.LINQtoSQL.Time time = new Time() { FreeDay = "false", Hour = a.Key.ToString(), Minute = b.ToString() };
+                    Bus.Bussines.LINQtoSQL.Time time = new Time() { TypeDay = "WorkDay", Hour = a.Key.ToString(), Minute = b.ToString() };
                     _dataContext.Times.InsertOnSubmit(time);
                     _dataContext.SubmitChanges();
                     Bus.Bussines.LINQtoSQL.BusPathToTime bpt = new BusPathToTime() { Time_ID = time.ID, BusPath_ID = _busPath.ID };
@@ -84,12 +82,38 @@ namespace Bus.Bussines
                     _dataContext.SubmitChanges();
                 }
             }
-
+            if (currentData.TimeFreeDays != null)
             foreach (var a in currentData.TimeFreeDays)
             {
                 foreach (var b in a.Value)
                 {
-                    Bus.Bussines.LINQtoSQL.Time time = new Time() { FreeDay = "true", Hour = a.Key.ToString(), Minute = b.ToString() };
+                    Bus.Bussines.LINQtoSQL.Time time = new Time() { TypeDay = "FreeDay", Hour = a.Key.ToString(), Minute = b.ToString() };
+                    _dataContext.Times.InsertOnSubmit(time);
+                    _dataContext.SubmitChanges();
+                    Bus.Bussines.LINQtoSQL.BusPathToTime bpt = new BusPathToTime() { Time_ID = time.ID, BusPath_ID = _busPath.ID };
+                    _dataContext.BusPathToTimes.InsertOnSubmit(bpt);
+                    _dataContext.SubmitChanges();
+                }
+            }
+            if (currentData.TimeSaturday != null)
+            foreach (var a in currentData.TimeSaturday)
+            {
+                foreach (var b in a.Value)
+                {
+                    Bus.Bussines.LINQtoSQL.Time time = new Time() { TypeDay = "Saturday", Hour = a.Key.ToString(), Minute = b.ToString() };
+                    _dataContext.Times.InsertOnSubmit(time);
+                    _dataContext.SubmitChanges();
+                    Bus.Bussines.LINQtoSQL.BusPathToTime bpt = new BusPathToTime() { Time_ID = time.ID, BusPath_ID = _busPath.ID };
+                    _dataContext.BusPathToTimes.InsertOnSubmit(bpt);
+                    _dataContext.SubmitChanges();
+                }
+            }
+            if (currentData.TimeSunday != null)
+            foreach (var a in currentData.TimeSunday)
+            {
+                foreach (var b in a.Value)
+                {
+                    Bus.Bussines.LINQtoSQL.Time time = new Time() { TypeDay = "Sunday", Hour = a.Key.ToString(), Minute = b.ToString() };
                     _dataContext.Times.InsertOnSubmit(time);
                     _dataContext.SubmitChanges();
                     Bus.Bussines.LINQtoSQL.BusPathToTime bpt = new BusPathToTime() { Time_ID = time.ID, BusPath_ID = _busPath.ID };
@@ -209,6 +233,25 @@ namespace Bus.Bussines
             return stations;
         }
 
+        public static List<Station> GetOrderStations(int BusId)
+        {
+            List<Station> stations = new List<Station>();
+            var path = from value in _dataContext.BusPaths
+                             where value.Bus_ID == BusId
+                             select value;
+            //path = path.OrderBy(x => int.Parse(x.StationNumber));
+            path.ToList().Sort((x, y) => int.Parse(x.StationNumber).CompareTo(int.Parse(y.StationNumber)));
+            
+
+
+            foreach (var value in path)
+            {
+                var station = GetStation(value.Station_ID);
+                stations.Add(station);
+            }
+            return stations;
+        }
+
         public static List<Station> GetStations()
         {
             List<Station> stations = new List<Station>();
@@ -217,9 +260,138 @@ namespace Bus.Bussines
             foreach (var value in stationsId)
             {
                 var station = GetStation(value);
-                stations.Add(station);
+                if(!stations.Contains(station))
+                    stations.Add(station);
             }
             return stations;
         }
+
+        private static List<int> GetTimes(int stationId, int busId)
+        {
+            var pts = from value in _dataContext.BusPaths
+                      where value.Bus_ID == busId && value.Station_ID == stationId
+                      select value;
+            var ptsl = pts.ToList();
+            if (ptsl.Count > 0)
+            {
+                var ids = from value in _dataContext.BusPathToTimes
+                          where ptsl[0].ID == value.BusPath_ID
+                          select value.Time_ID;
+                return ids.ToList();
+            }
+            return null;
+        }
+
+        private static Bus.Bussines.LINQtoSQL.Time GetTime(int id)
+        {
+            var times = from value in _dataContext.Times
+                        where value.ID == id
+                        select value;
+            var timeList = times.ToList();
+            if (timeList.Count > 0)
+            {
+                return timeList[0];
+            }
+            return null;
+        }
+
+        #region GetCurrentTimes
+        public static Dictionary<int, List<int>> GetFreeTimes(int stationId, int busId)
+        {
+            var times = GetTimes(stationId, busId);
+            Dictionary<int, List<int>> timeDictionary = new Dictionary<int, List<int>>();
+            foreach (var time in times)
+            {
+                var currentTime = GetTime(time);
+                if (currentTime != null)
+                {
+                    if (currentTime.TypeDay == "FreeDay")
+                    {
+                        if (!timeDictionary.ContainsKey(int.Parse(currentTime.Hour)))
+                        {
+                            timeDictionary.Add(int.Parse(currentTime.Hour), new List<int>() { int.Parse(currentTime.Minute) });
+                        }
+                        else
+                        {
+                            timeDictionary[int.Parse(currentTime.Hour)].Add(int.Parse(currentTime.Minute));
+                        }
+                    }
+                }
+            }
+            return timeDictionary;
+        }
+        public static Dictionary<int, List<int>> GetWorkTimes(int stationId, int busId)
+        {
+            var times = GetTimes(stationId, busId);
+            Dictionary<int, List<int>> timeDictionary = new Dictionary<int, List<int>>();
+            foreach (var time in times)
+            {
+                var currentTime = GetTime(time);
+                if (currentTime != null)
+                {
+                    if (currentTime.TypeDay == "WorkDay")
+                    {
+                        if (!timeDictionary.ContainsKey(int.Parse(currentTime.Hour)))
+                        {
+                            timeDictionary.Add(int.Parse(currentTime.Hour), new List<int>() { int.Parse(currentTime.Minute) });
+                        }
+                        else
+                        {
+                            timeDictionary[int.Parse(currentTime.Hour)].Add(int.Parse(currentTime.Minute));
+                        }
+                    }
+                }
+            }
+            return timeDictionary;
+        }
+        public static Dictionary<int, List<int>> GetSaturdayTimes(int stationId, int busId)
+        {
+            var times = GetTimes(stationId, busId);
+            Dictionary<int, List<int>> timeDictionary = new Dictionary<int, List<int>>();
+            foreach (var time in times)
+            {
+                var currentTime = GetTime(time);
+                if (currentTime != null)
+                {
+                    if (currentTime.TypeDay == "Saturday")
+                    {
+                        if (!timeDictionary.ContainsKey(int.Parse(currentTime.Hour)))
+                        {
+                            timeDictionary.Add(int.Parse(currentTime.Hour), new List<int>() { int.Parse(currentTime.Minute) });
+                        }
+                        else
+                        {
+                            timeDictionary[int.Parse(currentTime.Hour)].Add(int.Parse(currentTime.Minute));
+                        }
+                    }
+                }
+            }
+            return timeDictionary;
+        }
+        public static Dictionary<int, List<int>> GetSundayTimes(int stationId, int busId)
+        {
+            var times = GetTimes(stationId, busId);
+            Dictionary<int, List<int>> timeDictionary = new Dictionary<int, List<int>>();
+            foreach (var time in times)
+            {
+                var currentTime = GetTime(time);
+                if (currentTime != null)
+                {
+                    if (currentTime.TypeDay == "Sunday")
+                    {
+                        if (!timeDictionary.ContainsKey(int.Parse(currentTime.Hour)))
+                        {
+                            timeDictionary.Add(int.Parse(currentTime.Hour), new List<int>() { int.Parse(currentTime.Minute) });
+                        }
+                        else
+                        {
+                            timeDictionary[int.Parse(currentTime.Hour)].Add(int.Parse(currentTime.Minute));
+                        }
+                    }
+                }
+            }
+            return timeDictionary;
+        }
+        #endregion
     }
 }

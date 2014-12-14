@@ -1,0 +1,97 @@
+﻿@model Bus.Models.Pages.PathPage
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts/_layout.cshtml";
+}
+<h3>Начало маршрута</h3>
+<select id="l1">
+    @foreach (var name in Model.StationNames)
+    {
+        <option>@name</option> 
+    }
+</select>
+<h3>Конец маршрута</h3>
+<select id="l2">
+    @foreach (var name in Model.StationNames)
+    {
+        <option>@name</option> 
+    }
+</select>
+<a href="@Url.Action("GetMap", "PathPage", new {start="ФОЛЮШ", end="АВТОВОКЗАЛ"})" id="search">Search</a>
+@*@section yandexMap
+{
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    <style>
+        html, body, container, #map {
+            width: 100%;
+            height: 100% !important;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+}*@
+
+
+@*@section map{
+    <div id="map"></div>
+}
+
+<script type="text/javascript">
+    var posA = [[0,0],[0,0]];
+    var posB = [[0, 0], [0, 0]];
+    var aname;
+    var bname;
+    function geta2() {
+        //var geocoder = new YMaps.Geocoder("Беларусь, Гродно, остановка " + aname);
+        //YMaps.Events.observe(geocoder, geocoder.Events.Load, function () {
+        //        posA = this.get(0).geometry.getCoordinates();
+        //})
+
+
+        ymaps.geocode("Беларусь, Гродно, остановка " + aname, {
+            results: 1
+        }).then(function (res) {
+            posA = res.geoObjects.get(0).geometry.getCoordinates();
+        });
+    }
+    function getb2() {
+
+        ymaps.geocode("Беларусь, Гродно, остановка " + bname, {
+            results: 1
+        }).then(function (res) {
+            posB = res.geoObjects.get(0).geometry.getCoordinates();
+        });
+        
+    }
+    function getn()
+    {
+        aname = $("#l1 option:selected").val();
+        bname = $("#l2 option:selected").val();
+    }
+    $("#search").click(function () {
+        getn();
+        geta2();
+        getb2();
+        var a = posA[0];
+        var b = posA[1];
+        var c = posB[0];
+        var x = posB[1];
+        var myMap = new ymaps.Map('map', {
+            center: [a, x],
+            zoom: 12,
+            controls: [],
+            type: 'yandex#publicMap'
+        }),
+        route = ymaps.route([[a, b],[ c, x]]).then(
+            function (route) {
+                myMap.geoObjects.add(route);
+            },
+            function (error) {
+                alert('Возникла ошибка: ' + error.message);
+            }
+        );
+        myMap.controls.add(new ymaps.control.RouteEditor());
+        //myMap.geoObjects.add(route);
+    });
+</script>*@

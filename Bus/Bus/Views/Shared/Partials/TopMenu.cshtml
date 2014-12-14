@@ -1,0 +1,29 @@
+﻿@{
+    string url = string.Empty;
+    if (Request.Url != null)
+    {
+        url = Request.Url.ToString();
+    }
+    string active = string.Empty;
+}
+<nav class="navbar navbar-inverse">
+    <ul class="nav navbar-nav">
+        @{active = url.Contains("StartPage") ? "active" : String.Empty; }
+        <li class="@active">
+            <a href="/StartPage">Главная страница</a>
+        </li>
+        @{active = url.Contains("BusListingPage") ? "active" : String.Empty; }
+        <li class="@active">
+            <a href="/BusListingPage">Маршруты</a>
+        </li>
+        @{active = url.Contains("StationListingPage") ? "active" : String.Empty; }
+        <li class="@active">
+            <a href="/StationListingPage">Остановки</a>
+        </li>
+        @{active = url.Contains("PathPage") ? "active" : String.Empty; }
+        <li class="@active">
+            <a href="/PathPage">Проложить маршрут</a>
+        </li>
+    </ul>
+</nav>
+

@@ -1,4 +1,5 @@
-﻿@model Bus.Models.Pages.StationPage
+﻿@using Bus.Helpers
+@model Bus.Models.Pages.StationPage
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/Layouts/_layout.cshtml";
@@ -16,6 +17,7 @@
         {
      <div class="bus">
          <a href="@Url.Action("GetBusPage", "BusPage", new { busId = bus.ID })">Маршрут №@bus.Code - @bus.Name</a>
+         @Html.Partial("~/Views/Shared/Partials/TimeTable.cshtml", TimeTableHelper.GetTimeTable(bus.ID, Model.StationId))
          </div>
         }
     }

@@ -1,1 +1,159 @@
-﻿
+﻿@model Bus.Models.Partials.TimeTable
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<style>
+    th {
+        width:1%;
+    }
+    </style>
+<div class="table">@*присваивать id для дальнейшей подсветки час минута*@
+    <table border="1px" bordercolor="black" cellpadding="4">
+        <tbody>
+            @{
+                int pos = 4;
+                <tr>
+                    <th></th>
+                    @while (pos != 3)
+                    {
+                        pos++;
+                        if (pos > 23) { pos = 0; }					
+                        <th>@pos</th>
+                    }
+                </tr> 
+                <tr>
+                    <th>Рабочие дни</th>
+                    @{
+                      pos = 4;
+                      while (pos != 3)
+                      {
+                          pos++;
+                          if (pos > 23) { pos = 0; }
+
+                          bool contain = false;
+                        <th>
+                            @foreach (var min in Model.timeWorkDays)
+                            {
+
+                                if (min.Key == pos)
+                                {
+                                    foreach (var minutes in min.Value)
+                                    {
+                                        contain = true;
+                                        <span>@minutes</span>
+                                    }
+                                }
+                                if (!contain)
+                                {
+                                    <span></span>
+                                }
+
+                            }
+
+                        </th>
+                      }
+                    }
+                </tr>
+                <tr>
+                    <th>Выходные дни</th>
+                    @{
+                      pos = 4;
+                      while (pos != 3)
+                      {
+                          pos++;
+                          if (pos > 23) { pos = 0; }
+
+                          var contain = false;
+                        <th>
+                            @foreach (var min in Model.timeFreeDays)
+                            {
+
+                                if (min.Key == pos)
+                                {
+                                    foreach (var minutes in min.Value)
+                                    {
+                                        contain = true;
+                                        <span>@minutes</span>
+                                    }
+                                }
+                                if (!contain)
+                                {
+                                    <span></span>
+                                }
+
+                            }
+                        </th>
+                      }
+                    }
+                </tr>
+                <tr>
+                    <th>Суббота</th>
+                    @{
+                      pos = 4;
+                      while (pos != 3)
+                      {
+                          pos++;
+                          if (pos > 23) { pos = 0; }
+
+                          bool contain = false;
+                        <th>
+                            @foreach (var min in Model.Saturday)
+                            {
+
+                                if (min.Key == pos)
+                                {
+                                    foreach (var minutes in min.Value)
+                                    {
+                                        contain = true;
+                                        <span>@minutes</span>
+                                    }
+                                }
+                                if (!contain)
+                                {
+                                    <span></span>
+                                }
+
+                            }
+
+                        </th>
+                      }
+                    }
+                </tr>
+                <tr>
+                    <th>Воскресенье</th>
+                    @{
+                      pos = 4;
+                      while (pos != 3)
+                      {
+                          pos++;
+                          if (pos > 23) { pos = 0; }
+
+                          bool contain = false;
+                        <th>
+                            @foreach (var min in Model.Sunday)
+                            {
+
+                                if (min.Key == pos)
+                                {
+                                    foreach (var minutes in min.Value)
+                                    {
+                                        contain = true;
+                                        <span>@minutes</span>
+                                    }
+                                }
+                                if (!contain)
+                                {
+                                    <span></span>
+                                }
+
+                            }
+
+                        </th>
+                      }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

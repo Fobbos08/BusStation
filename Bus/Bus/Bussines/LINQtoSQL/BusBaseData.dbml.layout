@@ -60,5 +60,11 @@
         <classShapeMoniker Id="56261439-c1f6-49e5-a15e-189d4be3b867" />
       </nodes>
     </associationConnector>
+    <classShape Id="86d4ffdd-ea07-4563-b914-bc4cccc3bc6c" absoluteBounds="0.75, 6, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/BusBaseDataDataContext/Users" />
+      <nestedChildShapes>
+        <elementListCompartment Id="78a6d63f-ebb8-4e00-baa1-9c34a890ddf4" absoluteBounds="0.765, 6.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

@@ -47,7 +47,7 @@ namespace Bus.Bussines.LINQtoSQL
     #endregion
 		
 		public BusBaseDataDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["MVCBusStationConnectionString1"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["MyNewBusStationConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -113,6 +113,14 @@ namespace Bus.Bussines.LINQtoSQL
 			get
 			{
 				return this.GetTable<BusPathToTime>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Users> Users
+		{
+			get
+			{
+				return this.GetTable<Users>();
 			}
 		}
 	}
@@ -663,8 +671,8 @@ namespace Bus.Bussines.LINQtoSQL
     partial void OnHourChanged();
     partial void OnMinuteChanging(string value);
     partial void OnMinuteChanged();
-    partial void OnFreeDayChanging(string value);
-    partial void OnFreeDayChanged();
+    partial void OnTypeDayChanging(string value);
+    partial void OnTypeDayChanged();
     #endregion
 		
 		public Time()
@@ -733,8 +741,8 @@ namespace Bus.Bussines.LINQtoSQL
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FreeDay", CanBeNull=false)]
-		public string FreeDay
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="FreeDay", Storage="_FreeDay", CanBeNull=false)]
+		public string TypeDay
 		{
 			get
 			{
@@ -744,11 +752,11 @@ namespace Bus.Bussines.LINQtoSQL
 			{
 				if ((this._FreeDay != value))
 				{
-					this.OnFreeDayChanging(value);
+					this.OnTypeDayChanging(value);
 					this.SendPropertyChanging();
 					this._FreeDay = value;
-					this.SendPropertyChanged("FreeDay");
-					this.OnFreeDayChanged();
+					this.SendPropertyChanged("TypeDay");
+					this.OnTypeDayChanged();
 				}
 			}
 		}
@@ -987,6 +995,87 @@ namespace Bus.Bussines.LINQtoSQL
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="")]
+	public partial class Users
+	{
+		
+		private int _ID;
+		
+		private string _Login;
+		
+		private string _Password;
+		
+		private string _Role;
+		
+		public Users()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Login", CanBeNull=false)]
+		public string Login
+		{
+			get
+			{
+				return this._Login;
+			}
+			set
+			{
+				if ((this._Login != value))
+				{
+					this._Login = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this._Password = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", CanBeNull=false)]
+		public string Role
+		{
+			get
+			{
+				return this._Role;
+			}
+			set
+			{
+				if ((this._Role != value))
+				{
+					this._Role = value;
+				}
 			}
 		}
 	}

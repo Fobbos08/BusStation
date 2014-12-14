@@ -17,11 +17,10 @@ namespace Bus.Controllers
         public ActionResult Index(StartPage currentPage)
         {
             //BusBaseDataDataContext _dataContext = new BusBaseDataDataContext();
+            //_dataContext.DeleteDatabase();
+            //_dataContext.CreateDatabase();
             //DataUpdateJob j = new DataUpdateJob();
-            //j.Update();
-             //BusBaseDataDataContext _dataContext = new BusBaseDataDataContext();
-             //_dataContext.DeleteDatabase();
-             //_dataContext.CreateDatabase();
+            //j.Update();       
             return View(currentPage);
         }
 
